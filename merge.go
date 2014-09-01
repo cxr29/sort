@@ -11,7 +11,7 @@ func Merge(a sort.Interface) {
 	mergeSort(a, 0, n)
 }
 
-func MergeLoop(a sort.Interface) {
+func LoopMerge(a sort.Interface) {
 	n := a.Len()
 	if n < 2 {
 		return

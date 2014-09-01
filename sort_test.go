@@ -31,6 +31,7 @@ func TestSort(t *testing.T) {
 	testSort(t, SedgewickShell)
 	testSort(t, FibonacciShell)
 	testSort(t, Merge)
+	testSort(t, LoopMerge)
 	testSort(t, Quick)
 	testSort(t, Heap)
 }
@@ -119,7 +120,7 @@ func BenchmarkMergeInt64K(b *testing.B) {
 	}
 }
 
-func BenchmarkMergeLoopInt1K(b *testing.B) {
+func BenchmarkLoopMergeInt1K(b *testing.B) {
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
 		data := make(Ints, 1<<10)
@@ -127,15 +128,15 @@ func BenchmarkMergeLoopInt1K(b *testing.B) {
 			data[i] = i ^ 0x2cc
 		}
 		b.StartTimer()
-		MergeLoop(data)
+		LoopMerge(data)
 		b.StopTimer()
 		if i == 0 && !sort.IsSorted(data) {
-			b.Fatalf("MergeLoop: Ints not sorted\n")
+			b.Fatalf("LoopMerge: Ints not sorted\n")
 		}
 	}
 }
 
-func BenchmarkMergeLoopInt64K(b *testing.B) {
+func BenchmarkLoopMergeInt64K(b *testing.B) {
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
 		data := make(Ints, 1<<16)
@@ -143,10 +144,10 @@ func BenchmarkMergeLoopInt64K(b *testing.B) {
 			data[i] = i ^ 0xcccc
 		}
 		b.StartTimer()
-		MergeLoop(data)
+		LoopMerge(data)
 		b.StopTimer()
 		if i == 0 && !sort.IsSorted(data) {
-			b.Fatalf("MergeLoop: Ints not sorted\n")
+			b.Fatalf("LoopMerge: Ints not sorted\n")
 		}
 	}
 }
