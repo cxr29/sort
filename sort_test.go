@@ -119,6 +119,38 @@ func BenchmarkMergeInt64K(b *testing.B) {
 	}
 }
 
+func BenchmarkMergeLoopInt1K(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		data := make(Ints, 1<<10)
+		for i := 0; i < len(data); i++ {
+			data[i] = i ^ 0x2cc
+		}
+		b.StartTimer()
+		MergeLoop(data)
+		b.StopTimer()
+		if i == 0 && !sort.IsSorted(data) {
+			b.Fatalf("MergeLoop: Ints not sorted\n")
+		}
+	}
+}
+
+func BenchmarkMergeLoopInt64K(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		data := make(Ints, 1<<16)
+		for i := 0; i < len(data); i++ {
+			data[i] = i ^ 0xcccc
+		}
+		b.StartTimer()
+		MergeLoop(data)
+		b.StopTimer()
+		if i == 0 && !sort.IsSorted(data) {
+			b.Fatalf("MergeLoop: Ints not sorted\n")
+		}
+	}
+}
+
 func BenchmarkQuickInt1K(b *testing.B) {
 	b.StopTimer()
 	Rand = nil
