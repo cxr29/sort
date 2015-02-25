@@ -1,4 +1,4 @@
-golang sort algorithms
+Go sort algorithms
 
 * bubble
 * select
